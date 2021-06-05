@@ -10,17 +10,18 @@ public class DequeueImpl <E> extends QueueImpl<E> implements Dequeue<E> {
 
     @Override
     public boolean insertLeft(E value) {
-        if (isFull()){
+        if (isFull()){//если очередь заполнена то вставка невозможна
             return  false;
         }
-        if (head == HEAD_DEFAULT)
-            head = data.length;
+        if (head == HEAD_DEFAULT){//если метка в дефолтном положении
+            head = data.length;//ставим ее в конец
+        }
 
-        data[--head] = value;
-        size++;
+        data[--head] = value;//записываем значение в предыдущую метке позицию 
+        size++;//увеличиваем размер очереди
 
         return true;
-        //
+        
     }
 
     @Override
@@ -51,22 +52,25 @@ public class DequeueImpl <E> extends QueueImpl<E> implements Dequeue<E> {
         //            head = HEAD_DEFAULT;//то возвращаем ее в дефолтное положение
         //        }
         //
-        //        E value = data[head++];//
-        //        size--;//
+        //        E value = data[head++];//значение на удаление
+        //        size--;//уменьшаем длину
         //
         //        return value;
     }
 
     @Override
     public E removeRight() {
-        if (isEmpty()) {
+        if (isEmpty()) {//если очередь пуста то удалять нечего
             return  null;
         }
-        if (tail == TAIL_DEFAULT)
-            tail = data.length - 1;
-
-        size--;
-        return data[tail--];
+        if (tail == TAIL_DEFAULT){//если метка в дефолтном положении
+            tail = data.length - 1;//ставим ее на последний элемент 
+        }
+        
+        E value = data[tail--];//значение на удаление
+        size--;//уменьшаем длину 
+        
+        return value;//
     }
 }
 
