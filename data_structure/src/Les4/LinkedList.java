@@ -21,11 +21,21 @@ public interface LinkedList<E> extends Iterable<E> {
     class Node<E> {
         E item;
         LinkedList.Node<E> next;
+        LinkedList.Node<E> previous;
 
         public Node(E item, LinkedList.Node<E> next) {
             this.item = item;
             this.next = next;
-        }
+
+    }
+
+    public  Node (E item, LinkedList.Node<E> next,LinkedList.Node<E> previous){
+            this.item = item;
+            this.next = next;
+            this.previous = previous;
+
+    }
+
     }
 
 }

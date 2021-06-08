@@ -2,6 +2,8 @@ package Les4;
 
 
 import java.util.Iterator;
+import java.util.ListIterator;
+import java.util.NoSuchElementException;
 
 public class SimpleLinkedListImpl<E> implements LinkedList<E> {
 
@@ -112,6 +114,102 @@ public class SimpleLinkedListImpl<E> implements LinkedList<E> {
 
     @Override
     public Iterator<E> iterator() {
-        return null;
+        return new ListIterator();
     }
+
+    private class ListIterator implements Iter<E> {
+
+        private final SimpleLinkedListImpl<E> list;
+
+        private Node<E> follow;
+        private Node<E> previous;
+
+        public ListIterator() {
+            this.list = SimpleLinkedListImpl.this;
+            reset();
+        }
+        @Override
+        public void reset() {//начальные значения
+            follow = list.firstElement;//текущий элемент
+            previous = null;//предыдущий элемент
+
+
+        }
+
+        @Override
+        public void insertBefore(E value) {
+            Node<E> node = new Node<>(value,null);
+            if (previous == null){
+                node.next = list.firstElement;
+                list.firstElement = node;
+                reset();
+            }
+
+        }
+
+        @Override
+        public void insertAfter(E value) {
+            Node<E> node = new Node<>(value,null);
+            if (list.isEmpty()){
+                list.firstElement = node;
+                follow = node;}
+                    else{
+                        node.next = follow.next;
+                        follow.next = node;
+                        nextLink();
+            }
+
+        }
+
+        @Override
+        public Node<E> getCurrent() {//возвращает текущее значение
+            return follow;
+        }
+
+        @Override
+        public boolean atEnd() {//конец списка?
+            return follow.next == null;//если нет, то false
+        }
+
+        @Override
+        public void deleteCurrent() {
+            if (previous == null){
+                list.firstElement = follow.next;
+                reset();
+            }else{
+                previous.next = follow.next;
+                if (!hasNext()){
+                    reset();
+                }else{
+                    follow = follow.next;
+                }
+
+            }
+
+        }
+
+        @Override
+        public void nextLink() {//переход к следующему элементу
+            previous = follow;//предыдущий становится текущим
+            follow = follow.next;//текущий становится следующим
+        }
+
+        @Override
+        public boolean hasNext() {
+            return follow!=null;
+        }
+
+        @Override
+        public E next() {
+            if (!hasNext()){
+                throw new NoSuchElementException();
+            }
+            E nextV = follow.item;//текущий
+            nextLink();
+            //previous = follow;//предыдущий становится текущим
+            //follow = follow.next;//текущий становится следующим
+            return nextV;
+        }
+
+}
 }
