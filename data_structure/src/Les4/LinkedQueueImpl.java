@@ -1,4 +1,4 @@
-package lesson4;
+package Les4;
 
 import queue.Queue;
 
@@ -41,3 +41,4 @@ public class LinkedQueueImpl<E> implements Queue<E> {
         return false;
     }
 }
+

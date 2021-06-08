@@ -1,4 +1,4 @@
-package lesson4;
+package Les4;
 
 public interface LinkedList<E> extends Iterable<E> {
 
@@ -20,12 +20,13 @@ public interface LinkedList<E> extends Iterable<E> {
 
     class Node<E> {
         E item;
-        Node<E> next;
+        LinkedList.Node<E> next;
 
-        public Node(E item, Node<E> next) {
+        public Node(E item, LinkedList.Node<E> next) {
             this.item = item;
             this.next = next;
         }
     }
 
 }
+

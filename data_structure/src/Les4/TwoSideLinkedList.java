@@ -1,4 +1,4 @@
-package lesson4;
+package Les4;
 
 public interface TwoSideLinkedList<E> extends LinkedList<E> {
 

@@ -1,4 +1,5 @@
-package lesson4;
+package Les4;
+
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,14 +13,12 @@ public class TestMain4 {
     }
 
     private static void testLinkedList() {
-//        LinkedList<Integer> linkedList = new SimpleLinkedListImpl<>();
-        TwoSideLinkedList<Integer> linkedList = new TwoSideLinkedListImpl<>();
+        LinkedList<Integer> linkedList = new SimpleLinkedListImpl<>();
+  //      TwoSideLinkedList<Integer> linkedList = new TwoSideLinkedListImpl<>();
         linkedList.insertFirst(1);
         linkedList.insertFirst(2);
         linkedList.insertFirst(3);
         linkedList.insertFirst(4);
-        linkedList.insertLast(5);
-//
         linkedList.display();
 //
         System.out.println("Find 2: " + linkedList.contains(2));
@@ -44,7 +43,7 @@ public class TestMain4 {
             int value = arrayList.get(i);
         }
 
-//        LinkedList<Integer> linkedListJava = new LinkedList<>();
+ //       LinkedList<Integer> linkedListJava = new LinkedList<>();
 //        linkedListJava.addFirst(1);
 //        linkedListJava.addFirst(2);
 //        linkedListJava.addLast(3);
@@ -89,3 +88,4 @@ public class TestMain4 {
         }
     }
 }
+
