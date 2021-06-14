@@ -14,6 +14,8 @@ public interface Tree<E extends Comparable<? super E>> {
 
     boolean remove(E value);
 
+    boolean isBalanced(Node<E> node);
+
     boolean isEmpty();
 
     int size();
@@ -22,5 +24,6 @@ public interface Tree<E extends Comparable<? super E>> {
 
     void traverse(TraverseMode mode);
 
+    boolean isBalanced();
 
 }

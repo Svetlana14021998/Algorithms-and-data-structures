@@ -7,15 +7,27 @@ public class TreeImpl<E extends Comparable<? super E>> implements Tree<E> {
     private class NodeAndParent {
         private Node<E> current;
         private Node<E> parent;
+        private int level;//глубина дерева
 
-        public NodeAndParent(Node<E> current, Node<E> parent) {
+
+        public NodeAndParent(Node<E> current, Node<E> parent, int level) {
             this.current = current;
             this.parent = parent;
+            this.level = level;
+        }
+
+        public NodeAndParent(Node<E> current, Node<E> parent) {
+            this(current, parent, 0);
         }
     }
 
     private int size;
     private Node<E> root;
+    private final int maxLevel;//максимальная глубина
+
+    public TreeImpl(int maxLevel) {
+        this.maxLevel = maxLevel;
+    }
 
 
     @Override
@@ -28,6 +40,10 @@ public class TreeImpl<E extends Comparable<? super E>> implements Tree<E> {
         }
 
         Node<E> previous = nodeAndParent.parent;
+        int lvl = nodeAndParent.level;//
+        if (lvl > maxLevel) {//если добавление производится на глубину больше максимальной
+            return false;//то добавление не происходит
+        }
         if (previous == null) {
             root = node;
         } else if (previous.isLeftChild(value)) {
@@ -49,6 +65,7 @@ public class TreeImpl<E extends Comparable<? super E>> implements Tree<E> {
     private NodeAndParent doFind(E value) {
         Node<E> current = root;
         Node<E> previous = null;
+        int lvl = 1;
 
         while (current != null) {
             if (current.getValue().equals(value)) {
@@ -61,9 +78,10 @@ public class TreeImpl<E extends Comparable<? super E>> implements Tree<E> {
             } else {
                 current = current.getRightChild();
             }
+            lvl++;
         }
 
-        return new NodeAndParent(null, previous);
+        return new NodeAndParent(null, previous,lvl);
     }
 
     @Override
@@ -148,12 +166,38 @@ public class TreeImpl<E extends Comparable<? super E>> implements Tree<E> {
     @Override
     public void traverse(TraverseMode mode) {
         switch (mode) {
-            case IN_ORDER -> inOrder(root);
-            case PRE_ORDER -> preOrder(root);
-            case POST_ORDER -> postOrder(root);
-            default -> throw new IllegalArgumentException("Unknown traverse mode: " + mode);
+            case IN_ORDER:
+                inOrder(root);
+                break;
+            case PRE_ORDER:
+                preOrder(root);
+                break;
+            case POST_ORDER:
+                postOrder(root);
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown traverse mode: " + mode);
         }
     }
+
+    @Override
+    public boolean isBalanced() {
+        return isBalanced(root);
+    }
+
+    @Override
+    public boolean isBalanced(Node<E> node) {
+        return (node == null) ||
+                isBalanced(node.getLeftChild()) &&
+                        isBalanced(node.getRightChild()) &&
+                        Math.abs(height(node.getLeftChild()) - height(node.getRightChild())) <= 1;
+
+    }
+
+    private int height(Node<E> node) {
+        return node == null ? 0 : 1 + Math.max(height(node.getLeftChild()), height(node.getRightChild()));
+    }
+
 
     private void inOrder(Node<E> current) {
         if (current == null) {
@@ -243,3 +287,5 @@ public class TreeImpl<E extends Comparable<? super E>> implements Tree<E> {
     }
 
 }
+
+
