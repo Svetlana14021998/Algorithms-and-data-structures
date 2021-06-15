@@ -141,4 +141,46 @@ public class GraphImpl implements Graph {
 
         resetVertexState();
     }
+
+    @Override
+    public Stack<String> searchPath(String firstTown, String lastTown) {
+        Stack<String> path = new Stack<>();
+        int firstIndex = indexOf(firstTown);
+        int lastIndex = indexOf(lastTown);
+        
+        if (firstIndex == -1 || lastIndex==-1){
+            throw new IllegalArgumentException();
+        }
+        
+        Queue<Vertex> queue = new ArrayDeque<>();
+        Vertex vertex = vertexList.get(firstIndex);
+        visitVertex(queue,vertex);
+        while (!queue.isEmpty()){
+            vertex = getNearUnvisitedVertex(queue.peek());
+            if(vertex == null){
+                queue.remove();
+            }
+            else {
+                visitVertex(queue,vertex);
+                vertex.setPreviousV(queue.peek());
+                if (vertex.getLabel().equals(lastTown)){
+                    path = setPath(vertex);
+                }
+            }
+        }
+        resetVertexState();
+        return path;
+        
+    }
+
+    private Stack<String> setPath(Vertex vertex) {
+        Stack<String> stack = new Stack<>();
+        Vertex ver = vertex;
+
+        while (ver!=null){
+            stack.push(ver.getLabel());
+            ver=ver.getPreviousVertex();
+        }
+        return stack;
+    }
 }
